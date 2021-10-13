@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="card__body">
+    <%= link_to study.title, study_path(study.id), class: :card__title %>
+    <p class="card__summary">
+      <%= " 言語 : " %>
+      <%= study.language %>
+    </p>
+    <p class="card__summary">
+      <%= " フレームワーク : " %>
+      <%= study.framework %>
+    </p>
+    <p class="card__summary card__summary__content">
+      <%= safe_join(study.content.split("\n"),tag(:br)) %>
+    </p>
+    <%# <%= link_to study.user.name, user_path(study.user.id), class: :card__user %>
+  </div>
+</div>

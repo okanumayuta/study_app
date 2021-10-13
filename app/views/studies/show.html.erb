@@ -1,0 +1,38 @@
+<main class="main">
+  <div class="inner show">
+    <div class="prototype__wrapper">
+      <p class="prototype__hedding">
+        <%= @study.title%>
+      </p>
+      <%= link_to @study.user.name, user_path(@study.user.id), class: :prototype__user %>
+      <%# プロトタイプの投稿者とログインしているユーザーが同じであれば以下を表示する %>
+      <% if user_signed_in? && current_user.id == @study.user_id %>
+        <div class="prototype__manage">
+          <%= link_to "編集する", edit_study_path(@study.id), class: :prototype__btn %>
+          <%= link_to "削除する", study_path(@study.id), method: :delete, class: :prototype__btn %>
+        </div>
+      <% end %>
+      <%# // プロトタイプの投稿者とログインしているユーザーが同じであれば上記を表示する %>
+      <div class="prototype__body">
+        <div class="prototype__detail">
+          <p class="detail__title">言語</p>
+          <p class="detail__message">
+            <%= @study.language %>
+          </p>
+        </div>
+        <div class="prototype__detail">
+          <p class="detail__title">フレームワーク</p>
+          <p class="detail__message">
+            <%= @study.framework %>
+          </p>
+        </div>
+      </div>
+     </div> 
+    <div class="prototype__detail detail_main">
+      <p class="detail__title">内容</p>
+      <p class="detail__message message_content">
+        <%= safe_join(@study.content.split("\n"),tag(:br)) %>
+      </p>
+    </div>
+  </div>
+</main>
