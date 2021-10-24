@@ -1,5 +1,9 @@
 class StudiesController < ApplicationController
-
+  
+  before_action :set_study, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :move_to_index, only: [:edit, :update, :destroy]
+  
   def index
     @studies = Study.all.order('created_at DESC')
   end
@@ -18,15 +22,12 @@ class StudiesController < ApplicationController
   end
 
   def show
-    @study = Study.find(params[:id])
   end
 
   def edit
-    @study = Study.find(params[:id])
   end
 
   def update
-    @study = Study.find(params[:id])
     if @study.update(study_params)
       redirect_to study_path(@study.id)
     else
@@ -35,7 +36,6 @@ class StudiesController < ApplicationController
   end
 
   def destroy
-    @study = Study.find(params[:id])
     @study.destroy
     redirect_to root_path
   end
@@ -50,5 +50,12 @@ class StudiesController < ApplicationController
     params.require(:study).permit(:title, :language, :framework, :content).merge(user_id: current_user.id)
   end
 
+  def move_to_index
+    redirect_to root_path unless current_user.id == @study.user_id
+  end
+
+  def set_study
+    @study = Study.find(params[:id])
+  end
 
 end
