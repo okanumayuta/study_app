@@ -1,13 +1,12 @@
 class StudiesController < ApplicationController
-  
   before_action :set_study, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
   before_action :move_to_index, only: [:edit, :update, :destroy]
-  
+
   def index
     @studies = Study.all.order('created_at DESC')
   end
-  
+
   def new
     @study = Study.new
   end
@@ -43,7 +42,7 @@ class StudiesController < ApplicationController
   def search
     @studies = Study.search(params[:keyword])
   end
-  
+
   private
 
   def study_params
@@ -57,5 +56,4 @@ class StudiesController < ApplicationController
   def set_study
     @study = Study.find(params[:id])
   end
-
 end
